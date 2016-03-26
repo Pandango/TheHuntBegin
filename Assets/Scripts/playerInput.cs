@@ -13,7 +13,6 @@ public class playerInput : MonoBehaviour {
     // Use this for initialization
     void Start () {
         characterContoller = GetComponent<CharacterController>();
-	
 	}
 	
 	// Update is called once per frame
@@ -27,7 +26,7 @@ public class playerInput : MonoBehaviour {
     void groundCheck()
     {
         //using raycast need start position/direction/magnitude,lenght
-        isGrounded = (Physics2D.Raycast(transform.position, -transform.up, characterContoller.height / 2.8f));
+        isGrounded = (Physics.Raycast(transform.position, -transform.up, characterContoller.height / 2.8f));
     }
 
     void Move()
