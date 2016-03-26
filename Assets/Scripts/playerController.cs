@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public class HunterController : MonoBehaviour {
+public class playerController : MonoBehaviour {
     private float moveHorizontal;
     public int maxSpeed = 10;
 
