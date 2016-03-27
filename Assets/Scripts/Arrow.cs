@@ -15,7 +15,7 @@ public class Arrow : MonoBehaviour {
 
     void OnCollisionEnter(Collision hitInfo)
     {
-        if ((hitInfo.gameObject.tag != "Player") && (hitInfo.gameObject.tag != "Arrow") && (hitInfo.gameObject.tag != "ArrowSuper"))
+        if ((hitInfo.gameObject.tag != "Player") && (hitInfo.gameObject.tag != "Arrow") && (hitInfo.gameObject.tag != "ArrowSuper") && (hitInfo.gameObject.tag != "Slash"))
         {
             Destroy(this.gameObject.GetComponent<Rigidbody>());
             Destroy(this.gameObject.GetComponent<Collider>());

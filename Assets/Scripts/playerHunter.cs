@@ -13,8 +13,9 @@ public class playerHunter : MonoBehaviour {
     bool isEnter = false;
 
     public AudioClip shootClip;
-    public GameObject ArrowPrefab,ArrowSuperPrefab;
-    public float shootForce;
+    public GameObject ArrowPrefab,ArrowSuperPrefab,SlashPrefab, TrapPrefab;
+    public float shootForce,slashForce, slashPower;
+    public KeyCode trap;
 
 
     Transform bow = null;
@@ -43,9 +44,17 @@ public class playerHunter : MonoBehaviour {
         {
             Shoot();
         }
-        if ((Input.GetMouseButton(1)) && (ScoreController.skillCD1 == 0))
+        if ((Input.GetMouseButton(2)) && (ScoreController.skillCD1 == 0))
         {
             ShootSuper();
+        }
+        if ((Input.GetMouseButton(1)) && (ScoreController.skillCD2 == 0))
+        {
+            Slash();
+        }
+        if ((Input.GetKeyDown(trap)) && (ScoreController.skillCD3 == 0))
+        {
+            Trap();
         }
     }
 
@@ -160,6 +169,7 @@ public class playerHunter : MonoBehaviour {
         Arrow.GetComponent<Rigidbody>().velocity = bow.TransformDirection(new Vector3(0, shootForce, 0));
         //Bullet2.GetComponent<Rigidbody>().AddForce(new Vector3 (10,20,shootForce));
         ScoreController.skillCD0 = 1f;
+        ScoreController.skillCD2 = 0.5f;
     }
 
     void ShootSuper()
@@ -177,5 +187,34 @@ public class playerHunter : MonoBehaviour {
         ScoreController.skillCD1 = 10f;
     }
 
+    void Slash()
+    {
 
+        if (bow == null)
+            bow = gameObject.transform.Find("ShootPoint"); // todo use full path for faster
+
+        // instantiat 1 bullet
+
+        var Slash = (GameObject)Instantiate(SlashPrefab, bow.position, bow.rotation);
+        if (faceRight)
+        {
+            slashPower = slashForce + (speedx * moveSpeed);
+        }
+        else if (!faceRight)
+        {
+            slashPower = slashForce - (speedx * moveSpeed);
+        }
+        Slash.GetComponent<Rigidbody>().velocity = bow.TransformDirection(new Vector3(0, slashPower, 0));
+        
+        ScoreController.skillCD0 = 0.5f;
+        ScoreController.skillCD2 = 0.5f;
+    }
+
+    void Trap()
+    {
+
+        Instantiate(TrapPrefab, transform.position - new Vector3(0, 0.8f, 0) , Quaternion.identity);
+
+        ScoreController.skillCD3 = 20f;
+    }
 }

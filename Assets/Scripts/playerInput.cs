@@ -5,9 +5,19 @@ public class playerInput : MonoBehaviour {
 
     private CharacterController characterContoller;
     public bool isGrounded;
+    bool faceRight = true;
+    bool isShoot = false;
+    bool PowerShot = false;
 
     [SerializeField]
     bool isEnter = false;
+
+    public AudioClip shootClip;
+    public GameObject ArrowPrefab,ArrowSuperPrefab;
+    public float shootForce;
+
+
+    Transform bow = null;
 
     public float gravity = 15.5f;
     private float fallSpeed;
@@ -22,13 +32,22 @@ public class playerInput : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
+        MoveMachineMouse();
         groundCheck();
         Fall();
         Jump();
         Move();
         EnterInCave();
-	}
+
+        if ((Input.GetMouseButton(0)) && (ScoreController.skillCD0 == 0))
+        {
+            Shoot();
+        }
+        if ((Input.GetMouseButton(1)) && (ScoreController.skillCD1 == 0))
+        {
+            ShootSuper();
+        }
+    }
 
     void groundCheck()
     {
@@ -92,4 +111,71 @@ public class playerInput : MonoBehaviour {
             isEnter = false;
         }
     }
+
+    void Flip()
+    {
+        faceRight = !faceRight;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+
+    }
+
+    void MoveMachineMouse()
+    {
+        if (bow == null)
+            bow = gameObject.transform.Find("ShootPoint");
+        /*Vector2 dir = Input.mousePosition - transform.position;
+        float angle = Mathf.Tan(dir.y / dir.x) * Mathf.Rad2Deg;
+        
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));*/
+
+        /*var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Quaternion rot = Quaternion.LookRotation(mousePosition - transform.position, transform.TransformDirection(Vector3.forward));
+        transform.rotation = new Quaternion(0, 0, rot.z -0.1f, rot.w - 0.1f);*/
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        bow.rotation = Quaternion.LookRotation(Vector3.forward , mousePos - transform.position);
+
+        if (mousePos.x > transform.position.x && !faceRight)
+        {
+            Flip();
+        }
+        else if (mousePos.x < transform.position.x && faceRight)
+        {
+            Flip();
+        }
+
+    }
+
+        void Shoot()
+    {
+
+        if (bow == null)
+            bow = gameObject.transform.Find("ShootPoint"); // todo use full path for faster
+
+        // instantiat 1 bullet
+
+        var Arrow = (GameObject)Instantiate(ArrowPrefab, bow.position, bow.rotation);
+        Arrow.GetComponent<Rigidbody>().velocity = bow.TransformDirection(new Vector3(0, shootForce, 0));
+        //Bullet2.GetComponent<Rigidbody>().AddForce(new Vector3 (10,20,shootForce));
+        ScoreController.skillCD0 = 0.5f;
+    }
+
+    void ShootSuper()
+    {
+
+        if (bow == null)
+            bow = gameObject.transform.Find("ShootPoint"); // todo use full path for faster
+
+        // instantiat 1 bullet
+
+        var ArrowSuper = (GameObject)Instantiate(ArrowSuperPrefab, bow.position, bow.rotation);
+        ArrowSuper.GetComponent<Rigidbody>().velocity = bow.TransformDirection(new Vector3(0, shootForce*5/2, 0));
+        //Bullet2.GetComponent<Rigidbody>().AddForce(new Vector3 (10,20,shootForce));
+
+        ScoreController.skillCD1 = 10f;
+    }
+
+
 }
