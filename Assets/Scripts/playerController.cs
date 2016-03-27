@@ -5,6 +5,7 @@ using System.Collections;
 public class playerController : MonoBehaviour {
     private float moveHorizontal;
     public int maxSpeed = 10;
+    bool faceRight = true;
 
     [SerializeField]
     float jumpSpeed = 350f;
@@ -29,6 +30,14 @@ public class playerController : MonoBehaviour {
         //เคลื่อนที่ ซ้ายขวา
         moveHorizontal = Input.GetAxis("Horizontal");
         localRigidbody.velocity = new Vector3(moveHorizontal * maxSpeed, localRigidbody.velocity.y);
+        if (moveHorizontal > 0 && !faceRight)
+        {
+            Flip();
+        }
+        else if (moveHorizontal < 0 && faceRight)
+        {
+            Flip();
+        }
 
         Vector3 jumpPosition = new Vector3(0, jumpSpeed/2);
 
@@ -38,5 +47,13 @@ public class playerController : MonoBehaviour {
         }
 	}
 
+    void Flip()
+    {
+            faceRight = !faceRight;
+            Vector3 theScale = transform.localScale;
+            theScale.x *= -1;
+            transform.localScale = theScale;
+        
+    }
 
 }
