@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class playerInput : MonoBehaviour {
-
+    
     private CharacterController characterContoller;
     public bool isGrounded;
     public float gravity = 15.5f;
