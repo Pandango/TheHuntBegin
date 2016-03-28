@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TestAnimal : MonoBehaviour {
 
-    private CharacterController characterController;
+    public CharacterController characterController;
     private Animator anim;
     public bool isGrounded;
     public bool isStun = false;
