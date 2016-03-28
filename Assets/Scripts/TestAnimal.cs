@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TestAnimal : MonoBehaviour {
 
-    private CharacterController characterContoller;
+    private CharacterController characterController;
     private Animator anim;
     public bool isGrounded;
     public bool isStun = false;
@@ -19,9 +19,9 @@ public class TestAnimal : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        characterContoller = GetComponent<CharacterController>();
+        characterController = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
-        characterContoller.enabled = true;
+        characterController.enabled = true;
     }
 
     // Update is called once per frame
@@ -52,7 +52,7 @@ public class TestAnimal : MonoBehaviour {
     void groundCheck()
     {
         //using raycast need start position/direction/magnitude,lenght
-        isGrounded = (Physics.Raycast(transform.position, -transform.up, characterContoller.height/0.9f));
+        isGrounded = (Physics.Raycast(transform.position, -transform.up, characterController.height/0.9f));
         anim.SetBool("Grounded", isGrounded);
     }
 
@@ -61,7 +61,7 @@ public class TestAnimal : MonoBehaviour {
         speedx = Input.GetAxis("Horizontal");
         if (speedx != 0)
         {
-            characterContoller.Move(new Vector3(speedx, 0) * moveSpeed * Time.deltaTime);
+            characterController.Move(new Vector3(speedx, 0) * moveSpeed * Time.deltaTime);
             anim.SetFloat("Speed", Mathf.Abs(speedx));
         }
     }
@@ -84,7 +84,7 @@ public class TestAnimal : MonoBehaviour {
         {
             if (fallSpeed > 0) fallSpeed = 0;
         }
-        characterContoller.Move(new Vector3(0, -fallSpeed * Time.deltaTime));
+        characterController.Move(new Vector3(0, -fallSpeed * Time.deltaTime));
     }
 
     void Flip()
@@ -103,11 +103,11 @@ public class TestAnimal : MonoBehaviour {
     {
         if (isStun == true)
         {
-            characterContoller.enabled = false;
+            characterController.enabled = false;
         }
         else if(isStun == false)
         {
-            characterContoller.enabled = true;
+            characterController.enabled = true;
         }
     }
 

@@ -53,18 +53,18 @@ public class testAnimalSkill : MonoBehaviour {
         AirLaunchSkill();
         boarSprintSkill();
         manholeSkill();
-
     }
 
     void AirLaunchSkill()
     {
         //Skill1 AirLaunch
-        if (Input.GetMouseButtonDown(0) && !AirLaunch && AirLaunchCd <= 0 && testAnimal.GetComponent<TestAnimal>().isGrounded && !testAnimal.GetComponent<TestAnimal>().isStun)
+        if (Input.GetMouseButtonDown(0) && !boarSprint && !AirLaunch && AirLaunchCd <= 0 && testAnimal.GetComponent<TestAnimal>().isGrounded && !testAnimal.GetComponent<TestAnimal>().isStun)
         {
             AirLaunch = true;
             AirLaunchTimer = AirLaunchRate;
             AirLaunchTrigger.enabled = true;
             AirLaunchCd = AirLaunchCdRate;
+
         }
         //reset Attack&SkillCooldown
         if (AirLaunch)
@@ -91,7 +91,7 @@ public class testAnimalSkill : MonoBehaviour {
     void boarSprintSkill()
     {
         //skill2 BoarSprint
-        if (Input.GetMouseButtonDown(1) && !boarSprint && boarSprintCd <= 0 && testAnimal.GetComponent<TestAnimal>().isGrounded && !testAnimal.GetComponent<TestAnimal>().isStun)
+        if (Input.GetMouseButtonDown(1)&& !AirLaunch && !boarSprint && boarSprintCd <= 0 && testAnimal.GetComponent<TestAnimal>().isGrounded && !testAnimal.GetComponent<TestAnimal>().isStun)
         {
             boarSprint = true;
             boarSprintTimer = boarSprintRate;
