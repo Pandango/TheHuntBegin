@@ -38,7 +38,7 @@ public class playerHunter : MonoBehaviour {
         Fall();
         Jump();
         Move();
-        EnterInCave();
+
 
         if ((Input.GetMouseButton(0)) && (ScoreController.skillCD0 == 0))
         {
@@ -92,33 +92,6 @@ public class playerHunter : MonoBehaviour {
             if (fallSpeed > 0) fallSpeed = 0;
         }
         characterContoller.Move(new Vector3(0, -fallSpeed*Time.deltaTime));
-    }
-    void EnterInCave()
-    {
-        GameObject cave2Pos = GameObject.Find("Cave2");
-        if (Input.GetKeyDown(KeyCode.LeftControl) && isEnter)
-        {
-            this.transform.position = cave2Pos.transform.position;
-        }
-       
-
-    }
-
-    void OnTriggerEnter(Collider hitInfo)
-    {
-        if(hitInfo.tag == "Cave" ){
-            isEnter = true;
-        }
-        Debug.Log(hitInfo);
-        Debug.Log(this.transform.position);
-    }
-
-    void OnTriggerExit(Collider hitInfo)
-    {
-        if (hitInfo.tag == "Cave")
-        {
-            isEnter = false;
-        }
     }
 
     void Flip()
